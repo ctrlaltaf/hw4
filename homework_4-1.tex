@@ -1,0 +1,117 @@
+\documentclass[11pt]{article}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{epsfig}
+\usepackage{subfigure}
+\usepackage{placeins}
+\usepackage{amsmath}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{amssymb}
+\usepackage{setspace}
+\usepackage{graphicx} % Include figure files
+\usepackage{times}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\hypersetup{bookmarks=true, unicode=false, pdftoolbar=true, pdfmenubar=true, pdffitwindow=false, pdfstartview={FitH}, pdfcreator={Daniel Larremore}, pdfproducer={Daniel Larremore}, pdfkeywords={} {} {}, pdfnewwindow=true, colorlinks=true, linkcolor=blue, citecolor=Green, filecolor=magenta, urlcolor=cyan,}
+\usepackage[parfill]{parskip}
+
+\graphicspath{{../Notes/PythonFigs/}{./}}
+
+\newcommand{\e}{\mathrm{e}}
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\erf}{\mathop\mathrm{erf}}
+\newcommand{\erfc}{\mathop\mathrm{erfc}}
+\newcommand{\xmin}{\ensuremath{x_{\min}}}
+\newcommand{\ntail}{\ensuremath{n_{\rm tail}}}
+
+\newcommand{\Q}[1]{\footnote{\textcolor{blue}{#1}}}
+
+\begin{document}
+
+\lhead{{\bf Mathematical \& Computational Modeling of Infectious Diseases \\ 
+Homework 4}}
+\rhead{{\bf D.B.\ Larremore\\2025}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+{\bf Instructions:} 
+\begin{itemize}[itemsep=-7pt]
+	\item Please turn in a single PDF file. 
+	\item Please share a link to your code, but do not attach the actual code. 
+	\item Handwritten math (scanned and included in a PDF) is fine, but please watch out for 10MB+ file sizes!
+\end{itemize}
+\vspace{0.1in}\hrule
+
+\begin{enumerate}
+	\item The goal of this problem is to try out some of the methods we developed in class to estimate $R_0$ or $R_t$ from data. You'll also have a chance to refresh yourself on confidence intervals. 
+	
+	{\bf What we know about Bison/Ralphie Unexplained Hiccups disease:}
+	\begin{itemize}[itemsep=-5pt]
+	\item BRUH disease affects bison like Ralphie.
+	\item It is non-fatal, and does not affect mortality.
+	\item Diagnosed via sporadic symptoms — mostly hiccups and bad breath.
+	\item There are 100,000 bison in the herd
+	\item Typical Bison lifespan in this herd is 100 weeks.
+	\item Typical infection lasts 2 weeks, and a separate study found duration of infection exponentially distributed.
+	\end{itemize}
+
+	{\bf Weekly Incidence Data}
+	\begin{itemize}[itemsep=-5pt]
+		\item Weekly new case counts were recorded for ~10 years, which you can find on Canvas as {\bf all\_weeks.csv}.
+		\item Ecologists believe they are identifying only 10\% of cases due to lack of funds.
+		\item This 10\% ascertainment is an approximation — varies from week to week.
+	\end{itemize}
+
+	{\bf Prevalence and Seroprevalence Studies}
+	\begin{itemize}[itemsep=-5pt]
+		\item Ted Turner paid for a prevalence study to be done. A team of researchers went out into the field at night dressed in bison disguises, and subjected 1000 bison to tickling — a decent way to see if they have hiccups. Only 7 had hiccups. 
+		\item The estate of Buffalo Bill paid for a seroprevalence study to be done. They took blood samples from 1000 randomly chosen bison and found that 517 had  BRUH antibodies.
+	\end{itemize}
+	
+\begin{enumerate}[label=\alph*.]
+	\item Estimate $R_0$ by examining the period of exponential growth (Method 1, Week 9). Be sure to show your work and plots as relevant. In the process, look up the 95\% confidence interval associated with estimating a slope from data points, and use the slope's confidence interval to provide a confidence interval for your $R_0$ estimate.
+	\item Estimate $R_0$ by utilizing the prevalence {\it or} seroprevalence data. (Method 2 or 4, Week 9). Be sure to show your work and plots as relevant. Write down (or look up) the 95\% confidence interval for the prevalence/seroprevalence estimate, and use it to provide a confidence interval for $R_0$.
+	\item (Grad / EC) Estimate $R_0$ a third way from the same data. 
+	\item Compare your estimates, the uncertainty associated with each, and discuss what might cause them to be different.
+	\item (EC for all) Estimate $R_t$ using Method 5.
+\end{enumerate}
+
+\clearpage
+\item The goal of this problem is to get some simple practice with sensitivity and specificity, and get a little more familiar with confidence intervals too.
+
+Suppose we've got a diagnostic with sensitivity $0.90$ and specificity $0.98$. 
+
+\begin{enumerate}[label=\alph*.]
+	\item Maria Lara conducts a prevalence study with the above diagnostic. She samples 100 people and gets 39 positives. What is your estimate of the prevalence after correcting for the sensitivity and specificity? 
+	\item Write down a 95\% confidence interval for your corrected estimate. 
+	\item Trying to be helpful, Burt Q. Losis conducts a second prevalence study in the same population and finds 18 positives out of 50 samples. Again estimate the prevalence and a 95\% confidence interval.
+	\item Pool Burt's and Maria's data to get a third estimate of prevalence, and update your 95\% confidence interval. How are your three estimates related? And, how are the widths of the three confidence intervals related? 
+	\item (Grad / EC) You test yourself. Positive! What is your best guess of the probability that you are {\it actually} positive?
+\end{enumerate}
+
+\clearpage
+
+\item The goal of this problem is to learn about how sensitivity and specificity arise from calibration data, i.e. from positive and negative controls. For this problem, you will need to read in three .csv files to access the data they contain:
+\begin{itemize}
+	\item {\bf HW4\_Q3\_neg.csv}: The assay values associated with a set of negative controls. 
+	\item {\bf HW4\_Q3\_pos.csv}: The assay values associated with a set of positive controls. 
+	\item {\bf HW4\_Q3\_data.csv}: The assay values associated with your prevalence study in the population.
+\end{itemize}
+\vspace{0.5in}
+
+\begin{enumerate}[label=\alph*.]
+	\item Read in the data and produce a tall, skinny plot with three columns of data: the negative controls (red), the positive controls (black), and the data from the field (blue). Use jitter and transparency (``alpha'') to allow us to see the distributions of the data. 
+	\item Consider a cutoff $c$ such that any assay values above $c$ are to be called positive and any assay values below $c$ are to be called negative. Then write four functions: $se(c)$, $sp(c)$, and $\hat{\phi}(c)$ and $\hat{\theta}(c)$. They should correspond to the sensitivity, the specificity, the raw prevalence in the field data, and the corrected prevalence in the field data. What value of $c$ corresponds to the ``Youden'' choice?
+	\item (Grad / EC) By sweeping over various choices of $c$, plot a receiver operator curve, and place a point at the Youden choice. Create a second plot showing how $\hat{\theta}(c)$ varies, and again, place a point at the Youden choice. 
+	\item Write 3-4 sentences reflecting on how the conclusions of a study might be affected by how one decides to choose the cutoff at which positives and negatives are called. 
+\end{enumerate}
+
+\end{enumerate}
+
+
+\end{document}
