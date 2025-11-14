@@ -20,7 +20,7 @@
 \usepackage{enumitem}
 \hypersetup{bookmarks=true, unicode=false, pdftoolbar=true, pdfmenubar=true, pdffitwindow=false, pdfstartview={FitH}, pdfcreator={Daniel Larremore}, pdfproducer={Daniel Larremore}, pdfkeywords={} {} {}, pdfnewwindow=true, colorlinks=true, linkcolor=blue, citecolor=Green, filecolor=magenta, urlcolor=cyan,}
 \usepackage[parfill]{parskip}
-
+\usepackage{float} 
 \graphicspath{{../Notes/PythonFigs/}{./}}
 
 \newcommand{\e}{\mathrm{e}}
@@ -39,12 +39,9 @@ Homework 4}}
 \rhead{{\bf D.B.\ Larremore\\2025}}
 \renewcommand{\headrulewidth}{0.4pt}
 
-{\bf Instructions:} 
-\begin{itemize}[itemsep=-7pt]
-	\item Please turn in a single PDF file. 
-	\item Please share a link to your code, but do not attach the actual code. 
-	\item Handwritten math (scanned and included in a PDF) is fine, but please watch out for 10MB+ file sizes!
-\end{itemize}
+Altaf Barelvi
+
+I collaborated with Ben Aoki-Sherwood
 \vspace{0.1in}\hrule
 
 \begin{enumerate}
@@ -75,9 +72,122 @@ Homework 4}}
 	
 \begin{enumerate}[label=\alph*.]
 	\item Estimate $R_0$ by examining the period of exponential growth (Method 1, Week 9). Be sure to show your work and plots as relevant. In the process, look up the 95\% confidence interval associated with estimating a slope from data points, and use the slope's confidence interval to provide a confidence interval for your $R_0$ estimate.
+	\par
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{figs/1a.png}
+		\caption{Exponential growth fit for estimating $R_0$.}
+		\label{fig:r0_exp}
+	\end{figure}
+	\textbf{Answer: }
+	\[
+	\begin{aligned}
+	\text{CI}_{\text{low}} &= \text{slope} - t_{\text{crit}} \times \text{SE}_{\text{slope}} \\
+	\text{CI}_{\text{high}} &= \text{slope} + t_{\text{crit}} \times \text{SE}_{\text{slope}} \\
+	\\
+	(\text{CI}_{\text{low}},\, \text{CI}_{\text{high}}) &= \textbf{(0.0019,\; 0.0033)}
+	\end{aligned}
+	\]
+
+	\[
+	R_0^{95\%\,\text{CI}} =
+	\left[
+	1 + \frac{m_{\text{low}}}{\gamma + \mu},\;
+	1 + \frac{m_{\text{high}}}{\gamma + \mu}
+	\right]
+	\]
+	
+	\[
+	R_0^{95\%\,\text{CI}} =
+	\left[
+	1 + \frac{\text{CI}_{\text{low}}}{\gamma + \mu},\;
+	1 + \frac{\text{CI}_{\text{high}}}{\gamma + \mu}
+	\right]
+	=
+	\textbf{(1.004,\; 1.007)}
+	\]
+
 	\item Estimate $R_0$ by utilizing the prevalence {\it or} seroprevalence data. (Method 2 or 4, Week 9). Be sure to show your work and plots as relevant. Write down (or look up) the 95\% confidence interval for the prevalence/seroprevalence estimate, and use it to provide a confidence interval for $R_0$.
+	\par
+	\textbf{Answer: }
+	\[
+	\quad n_{\text{total}} = 1000, \quad n_{\text{seropos}} = 517
+	\]
+
+	\[
+	\hat{P} = \frac{n_{\text{seropos}}}{n_{\text{total}}}
+	= \frac{517}{1000} = 0.517
+	\]
+
+	\[
+	z = 1.96, \quad
+	SE = \sqrt{\frac{\hat{P}(1 - \hat{P})}{n}}
+	= \sqrt{\frac{0.517(1 - 0.517)}{1000}}
+	= 0.016
+	\]
+
+	\[
+	P_{\text{low}} = \hat{P} - z \times SE
+	= 0.517 - 1.96(0.016) = 0.485
+	\]
+
+	\[
+	P_{\text{high}} = \hat{P} + z \times SE
+	= 0.517 + 1.96(0.016) = 0.549
+	\]
+
+	\[
+	\text{Thus, the 95\% CI for seroprevalence is: }
+	(0.485,\; 0.549)
+	\]
+
+	\[
+	R_0^{95\%\,\text{CI}} =
+	\left[
+	\dfrac{1}{1 - P_{\text{low}}},\;
+	\dfrac{1}{1 - P_{\text{high}}}
+	\right]
+	=
+	\left[
+	\dfrac{1}{1 - 0.485},\;
+	\dfrac{1}{1 - 0.549}
+	\right]
+	=
+	(1.94,\; 2.22)
+	\]
 	\item (Grad / EC) Estimate $R_0$ a third way from the same data. 
+	\par
+	\textbf{Answer: }
+	The equilibrium prevalence study found 7 infected bison out of 1000, giving
+	\[
+	i_{\mathrm{eq}} = \frac{7}{1000} = 0.007.
+	\]
+	\[
+	\gamma = \frac{1}{2},
+	\]
+	\[
+	\mu = \frac{1}{100}.
+	\]
+
+	The full equilibrium prevalence formula from Section 10.2 is
+	\[
+	R_0 = \frac{1}{1 - i_{\mathrm{eq}}\left(\frac{\gamma}{\mu} + 1\right)}.
+	\]
+	\[
+	R_0 
+	= \frac{1}{1 - 0.007 \cdot 51}
+	= 1.55.
+	\]
+
 	\item Compare your estimates, the uncertainty associated with each, and discuss what might cause them to be different.
+	\par
+	\textbf{Answer: } The three methods give different $R_0$ estimates because they rely on different parts of the data
+	and assumptions. The exponential-growth method gives an $R_0$ just above 1 with a very tight CI.
+	The seroprevalence method gives a higher estimate ($1.94$-$2.22$) because it reflects how many bison were ever infected rather than short-term trends.
+	The equilibrium–prevalence method gives an intermediate value ($1.55$)
+	These differences arise because each method captures a different part of the epidemic and makes different simplifications.
+	
+
 	\item (EC for all) Estimate $R_t$ using Method 5.
 \end{enumerate}
 
@@ -88,28 +198,172 @@ Suppose we've got a diagnostic with sensitivity $0.90$ and specificity $0.98$.
 
 \begin{enumerate}[label=\alph*.]
 	\item Maria Lara conducts a prevalence study with the above diagnostic. She samples 100 people and gets 39 positives. What is your estimate of the prevalence after correcting for the sensitivity and specificity? 
+	\par
+	\textbf{Answer: }
+	\[
+	\hat{\theta} = 
+	\frac{
+		\frac{n_{\text{pos}}}{n} - (1 - Sp)
+	}{
+		Se + Sp - 1
+	}
+	\]
+
+	\[
+	\hat{\theta} = 
+	\frac{
+		\frac{39}{100} - (1 - 0.98)
+	}{
+		0.9 + 0.98 - 1
+	}
+	\]
+
+	\[
+	\hat{\theta} = 0.420
+	\]
+
 	\item Write down a 95\% confidence interval for your corrected estimate. 
+	\par
+	\textbf{Answer: }
+	\[
+	SE = \sqrt{\frac{\hat{\theta}(1 - \hat{\theta})}{n}} 
+	= \sqrt{\frac{0.420(1 - 0.420)}{100}}
+	\]
+
+	\[
+	SE = 0.0494 \quad\quad Z = 1.96
+	\]
+
+	\[
+	CI = \left[ \hat{\theta} - Z \cdot SE, \; \hat{\theta} + Z \cdot SE \right]
+	\]
+
+	\[
+	CI = [0.324, \; 0.517]
+	\]
+
 	\item Trying to be helpful, Burt Q. Losis conducts a second prevalence study in the same population and finds 18 positives out of 50 samples. Again estimate the prevalence and a 95\% confidence interval.
+	\par
+	\textbf{Answer: }
+	\[
+	\hat{\theta} = 
+	\frac{
+		\frac{18}{50} - (1 - 0.98)
+	}{
+		0.9 + 0.98 - 1
+	}
+	\]
+
+	\[
+	\hat{\theta} = 0.386
+	\]
+
+	\[
+	SE = \sqrt{\frac{0.386(1 - 0.386)}{50}}
+	\]
+
+	\[
+	SE = 0.0687
+	\]
+
+	\[
+	CI = [0.2514, \; 0.5213]
+	\]
+
 	\item Pool Burt's and Maria's data to get a third estimate of prevalence, and update your 95\% confidence interval. How are your three estimates related? And, how are the widths of the three confidence intervals related? 
+	\par
+	\textbf{Answer: }
+	\[
+	n_{\text{pos}} = 57 \quad\quad n = 150
+	\]
+
+	\[
+	\hat{\theta} = 
+	\frac{
+		\frac{57}{150} - (1 - 0.98)
+	}{
+		0.9 + 0.98 - 1
+	}
+	\]
+
+	\[
+	\hat{\theta} = 0.409
+	\]
+
+	\[
+	SE = 0.0695
+	\]
+
+	\[
+	CI = [0.273, \; 0.545]
+	\]
+
+	The three estimates are related because we dont know which subset of the population pool burt collected overlapped with maria's collection.
+	This would also bring into question which of the positive people from both pool overlapped.
+	The confidence interval on the lower end are tailed towards pool burt's confidence interval.
+	Both studies have similar confidence interval on the higher end and this is reflected by a similar number for the combined study.
+	
 	\item (Grad / EC) You test yourself. Positive! What is your best guess of the probability that you are {\it actually} positive?
+	\par
+	\textbf{Answer: }
+	\[
+	\text{PPV} = \frac{\text{Se}\,\theta}{\text{Se}\,\theta + (1-\text{Sp})(1-\theta)}.
+	\]
+
+	Using sensitivity $\text{Se} = 0.90$, specificity $\text{Sp} = 0.98$, and the estimated prevalence
+	$\theta = 0.409$,
+	\[
+	\text{PPV} = 
+	\frac{0.90 \cdot 0.409}{
+	0.90 \cdot 0.409 + 0.02 \cdot (1 - 0.409)
+	}
+	\approx 0.969.
+	\]
+
 \end{enumerate}
 
 \clearpage
 
 \item The goal of this problem is to learn about how sensitivity and specificity arise from calibration data, i.e. from positive and negative controls. For this problem, you will need to read in three .csv files to access the data they contain:
-\begin{itemize}
-	\item {\bf HW4\_Q3\_neg.csv}: The assay values associated with a set of negative controls. 
-	\item {\bf HW4\_Q3\_pos.csv}: The assay values associated with a set of positive controls. 
-	\item {\bf HW4\_Q3\_data.csv}: The assay values associated with your prevalence study in the population.
-\end{itemize}
-\vspace{0.5in}
 
 \begin{enumerate}[label=\alph*.]
 	\item Read in the data and produce a tall, skinny plot with three columns of data: the negative controls (red), the positive controls (black), and the data from the field (blue). Use jitter and transparency (``alpha'') to allow us to see the distributions of the data. 
+	\par
+	\textbf{Answer: }
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\textwidth]{figs/3a.png}
+		\caption{Distribution of assay values for three conditions: Negative control, positive control, and population prevalence data}
+		\label{fig:dist_assay}
+	\end{figure}
+
 	\item Consider a cutoff $c$ such that any assay values above $c$ are to be called positive and any assay values below $c$ are to be called negative. Then write four functions: $se(c)$, $sp(c)$, and $\hat{\phi}(c)$ and $\hat{\theta}(c)$. They should correspond to the sensitivity, the specificity, the raw prevalence in the field data, and the corrected prevalence in the field data. What value of $c$ corresponds to the ``Youden'' choice?
+	\par
+	\textbf{Answer:} The optimal Youden cutoff was $c^* = 14.83$, yielding a sensitivity of $se = 0.96$, 
+	specificity of $sp = 0.96$, and a corrected prevalence estimate of $\hat{\theta} = 0.836$
 	\item (Grad / EC) By sweeping over various choices of $c$, plot a receiver operator curve, and place a point at the Youden choice. Create a second plot showing how $\hat{\theta}(c)$ varies, and again, place a point at the Youden choice. 
+	\par
+	\textbf{}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\textwidth]{figs/3c1.png}
+		\caption{ROC curve}
+		\label{fig:roc}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{figs/3c2.png}
+		\caption{$\hat{\theta}$ with C cutoff}
+		\label{fig:theta_varied}
+	\end{figure}
 	\item Write 3-4 sentences reflecting on how the conclusions of a study might be affected by how one decides to choose the cutoff at which positives and negatives are called. 
-\end{enumerate}
+	\par
+	\textbf{Answer: } The cutoff you choose affects how many results are called positive or negative.
+	If the cutoff is too low, you'll get more positives, but many of them might be false.
+	If it's too high, you might miss real cases.
+	Because of this, the conclusions of a study can change a lot depending on where that cutoff is set.
+	\end{enumerate}
 
 \end{enumerate}
 
